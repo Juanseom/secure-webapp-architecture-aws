@@ -23,13 +23,38 @@
 hs_err_pid*
 replay_pid*
 
-*.md
-
 # Maven build output
 target/
 
-# Local TLS artifacts
+# Local TLS artifacts & certificates
 *.p12
 *.jks
 *.cer
+*.crt
+*.key
 backend/certs/
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.iml
+*.iws
+*.ipr
+
+# Docker
+.env
+.env.local
+docker-compose.override.yml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+build/
+dist/
+

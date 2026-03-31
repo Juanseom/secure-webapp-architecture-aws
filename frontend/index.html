@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Web App - Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <h1>Login</h1>
+
+            <!-- Login Form -->
+            <div id="loginForm">
+                <form id="authForm">
+                    <div class="form-group">
+                        <label for="username">Usuario:</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Contraseña:</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+
+                    <button type="submit" class="btn">Ingresar</button>
+                </form>
+
+                <div id="loadingIndicator" class="hidden">
+                    <p>Validando...</p>
+                </div>
+
+                <div id="errorAlert" class="error hidden"></div>
+            </div>
+
+            <!-- Dashboard (after login) -->
+            <div id="dashboard" class="hidden">
+                <h2>Bienvenido <span id="usernameBadge">Usuario</span></h2>
+
+                <div class="info-box">
+                    <h3>Estado del Servidor</h3>
+                    <div id="healthStatus">
+                        <p>Cargando...</p>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h3>Información de Sesión</h3>
+                    <p><strong>Usuario:</strong> <span id="sessionUser">-</span></p>
+                    <p><strong>Token:</strong> <span id="tokenPreview">-</span></p>
+                    <p><strong>Hora de Login:</strong> <span id="loginTime">-</span></p>
+                </div>
+
+                <button id="logoutBtn" class="btn logout-btn">Cerrar Sesión</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+</html>
+
+
