@@ -3,14 +3,6 @@
   <component name="CopilotDiffPersistence">
     <option name="pendingDiffs">
       <map>
-        <entry key="$PROJECT_DIR$/backend/src/main/java/edu/eci/tdse/securespring/SecureSpringApplication.java">
-          <value>
-            <PendingDiffInfo>
-              <option name="filePath" value="$PROJECT_DIR$/backend/src/main/java/edu/eci/tdse/securespring/SecureSpringApplication.java" />
-              <option name="updatedContent" value="package edu.eci.tdse.securespring;&#10;&#10;import org.springframework.boot.SpringApplication;&#10;import org.springframework.boot.autoconfigure.SpringBootApplication;&#10;import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;&#10;import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;&#10;&#10;@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})&#10;public class SecureSpringApplication {&#10;&#10;    public static void main(String[] args) {&#10;        SpringApplication.run(SecureSpringApplication.class, args);&#10;    }&#10;}&#10;" />
-            </PendingDiffInfo>
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$/backend/src/main/java/edu/eci/tdse/securespring/auth/AuthController.java">
           <value>
             <PendingDiffInfo>
@@ -59,27 +51,29 @@
             </PendingDiffInfo>
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/backend/src/main/java/edu/eci/tdse/securewebapp/auth/AuthService.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/backend/src/main/java/edu/eci/tdse/securewebapp/auth/AuthService.java" />
+              <option name="originalContent" value="package edu.eci.tdse.securewebapp.auth;&#10;&#10;import java.util.Map;&#10;import java.util.concurrent.ConcurrentHashMap;&#10;import org.springframework.security.crypto.password.PasswordEncoder;&#10;import org.springframework.stereotype.Service;&#10;&#10;@Service&#10;public class AuthService {&#10;&#10;    private final PasswordEncoder passwordEncoder;&#10;    private final Map&lt;String, String&gt; usersByUsername = new ConcurrentHashMap&lt;&gt;();&#10;&#10;    public AuthService(PasswordEncoder passwordEncoder) {&#10;        this.passwordEncoder = passwordEncoder;&#10;        usersByUsername.put(&quot;student&quot;, passwordEncoder.encode(&quot;student123&quot;));&#10;    }&#10;&#10;    public boolean validateCredentials(String username, String password) {&#10;        String storedHash = usersByUsername.get(username);&#10;        if (storedHash == null) {&#10;            return false;&#10;        }&#10;        return passwordEncoder.matches(password, storedHash);&#10;    }&#10;}&#10;&#10;" />
+              <option name="updatedContent" value="package edu.eci.tdse.securewebapp.auth;&#10;&#10;import java.util.Optional;&#10;import org.springframework.security.crypto.password.PasswordEncoder;&#10;import org.springframework.stereotype.Service;&#10;&#10;@Service&#10;public class AuthService {&#10;&#10;    private final UserAccountRepository userAccountRepository;&#10;    private final PasswordEncoder passwordEncoder;&#10;&#10;    public AuthService(UserAccountRepository userAccountRepository, PasswordEncoder passwordEncoder) {&#10;        this.userAccountRepository = userAccountRepository;&#10;        this.passwordEncoder = passwordEncoder;&#10;    }&#10;&#10;    public boolean validateCredentials(String username, String password) {&#10;        Optional&lt;UserAccount&gt; user = userAccountRepository.findByUsername(username);&#10;        if (user.isEmpty()) {&#10;            return false;&#10;        }&#10;        return passwordEncoder.matches(password, user.get().getPasswordHash());&#10;    }&#10;}&#10;&#13;&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/backend/src/main/java/edu/eci/tdse/securewebapp/auth/UserAccount.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/backend/src/main/java/edu/eci/tdse/securewebapp/auth/UserAccount.java" />
+              <option name="updatedContent" value="package edu.eci.tdse.securewebapp.auth;&#10;&#10;import jakarta.persistence.Column;&#10;import jakarta.persistence.Entity;&#10;import jakarta.persistence.GeneratedValue;&#10;import jakarta.persistence.GenerationType;&#10;import jakarta.persistence.Id;&#10;import jakarta.persistence.Table;&#10;&#10;@Entity&#10;@Table(name = &quot;users&quot;)&#10;public class UserAccount {&#10;&#10;    @Id&#10;    @GeneratedValue(strategy = GenerationType.IDENTITY)&#10;    private Long id;&#10;&#10;    @Column(nullable = false, unique = true, length = 100)&#10;    private String username;&#10;&#10;    @Column(name = &quot;password_hash&quot;, nullable = false, length = 255)&#10;    private String passwordHash;&#10;&#10;    public UserAccount() {&#10;    }&#10;&#10;    public UserAccount(String username, String passwordHash) {&#10;        this.username = username;&#10;        this.passwordHash = passwordHash;&#10;    }&#10;&#10;    public Long getId() {&#10;        return id;&#10;    }&#10;&#10;    public String getUsername() {&#10;        return username;&#10;    }&#10;&#10;    public void setUsername(String username) {&#10;        this.username = username;&#10;    }&#10;&#10;    public String getPasswordHash() {&#10;        return passwordHash;&#10;    }&#10;&#10;    public void setPasswordHash(String passwordHash) {&#10;        this.passwordHash = passwordHash;&#10;    }&#10;}&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/backend/src/main/resources/application.properties">
           <value>
             <PendingDiffInfo>
               <option name="filePath" value="$PROJECT_DIR$/backend/src/main/resources/application.properties" />
-              <option name="updatedContent" value="server.port=${PORT:5000}&#10;&#10;spring.application.name=secure-spring-backend&#10;&#10;# Commit 2 uses in-memory auth service to keep setup simple for first run.&#10;# PostgreSQL configuration and JPA persistence will be enabled in a later commit.&#10;&#10;logging.level.org.springframework.security=INFO&#10;" />
-            </PendingDiffInfo>
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/backend/src/test/java/edu/eci/tdse/securespring/auth/AuthControllerTest.java">
-          <value>
-            <PendingDiffInfo>
-              <option name="filePath" value="$PROJECT_DIR$/backend/src/test/java/edu/eci/tdse/securespring/auth/AuthControllerTest.java" />
-              <option name="updatedContent" value="package edu.eci.tdse.securespring.auth;&#10;&#10;import static org.mockito.ArgumentMatchers.anyString;&#10;import static org.mockito.Mockito.when;&#10;import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;&#10;import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;&#10;import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;&#10;import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;&#10;&#10;import edu.eci.tdse.securespring.security.SecurityConfig;&#10;import org.junit.jupiter.api.Test;&#10;import org.springframework.beans.factory.annotation.Autowired;&#10;import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;&#10;import org.springframework.boot.test.mock.mockito.MockBean;&#10;import org.springframework.context.annotation.Import;&#10;import org.springframework.http.MediaType;&#10;import org.springframework.test.web.servlet.MockMvc;&#10;&#10;@WebMvcTest(controllers = AuthController.class)&#10;@Import(SecurityConfig.class)&#10;class AuthControllerTest {&#10;&#10;    @Autowired&#10;    private MockMvc mockMvc;&#10;&#10;    @MockBean&#10;    private AuthService authService;&#10;&#10;    @Test&#10;    void loginShouldReturnUnauthorizedWhenCredentialsAreInvalid() throws Exception {&#10;        when(authService.validateCredentials(anyString(), anyString())).thenReturn(false);&#10;&#10;        mockMvc.perform(post(&quot;/api/auth/login&quot;)&#10;                        .with(csrf())&#10;                        .contentType(MediaType.APPLICATION_JSON)&#10;                        .content(&quot;{\&quot;username\&quot;:\&quot;student\&quot;,\&quot;password\&quot;:\&quot;wrong\&quot;}&quot;))&#10;                .andExpect(status().isUnauthorized())&#10;                .andExpect(jsonPath(&quot;$.success&quot;).value(false));&#10;    }&#10;&#10;    @Test&#10;    void loginShouldReturnOkWhenCredentialsAreValid() throws Exception {&#10;        when(authService.validateCredentials(anyString(), anyString())).thenReturn(true);&#10;&#10;        mockMvc.perform(post(&quot;/api/auth/login&quot;)&#10;                        .with(csrf())&#10;                        .contentType(MediaType.APPLICATION_JSON)&#10;                        .content(&quot;{\&quot;username\&quot;:\&quot;student\&quot;,\&quot;password\&quot;:\&quot;student123\&quot;}&quot;))&#10;                .andExpect(status().isOk())&#10;                .andExpect(jsonPath(&quot;$.success&quot;).value(true));&#10;    }&#10;}&#10;" />
-            </PendingDiffInfo>
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/backend/src/test/java/edu/eci/tdse/securespring/health/HealthControllerTest.java">
-          <value>
-            <PendingDiffInfo>
-              <option name="filePath" value="$PROJECT_DIR$/backend/src/test/java/edu/eci/tdse/securespring/health/HealthControllerTest.java" />
-              <option name="updatedContent" value="package edu.eci.tdse.securespring.health;&#10;&#10;import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;&#10;import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;&#10;import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;&#10;&#10;import edu.eci.tdse.securespring.security.SecurityConfig;&#10;import org.junit.jupiter.api.Test;&#10;import org.springframework.beans.factory.annotation.Autowired;&#10;import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;&#10;import org.springframework.context.annotation.Import;&#10;import org.springframework.test.web.servlet.MockMvc;&#10;&#10;@WebMvcTest(controllers = HealthController.class)&#10;@Import(SecurityConfig.class)&#10;class HealthControllerTest {&#10;&#10;    @Autowired&#10;    private MockMvc mockMvc;&#10;&#10;    @Test&#10;    void healthShouldReturnOkResponse() throws Exception {&#10;        mockMvc.perform(get(&quot;/api/health&quot;))&#10;                .andExpect(status().isOk())&#10;                .andExpect(jsonPath(&quot;$.status&quot;).value(&quot;ok&quot;));&#10;    }&#10;}&#10;" />
+              <option name="originalContent" value="server.port=${PORT:5000}&#10;&#10;spring.application.name=secure-webapp-backend&#10;&#10;logging.level.org.springframework.security=INFO&#10;" />
+              <option name="updatedContent" value="server.port=${PORT:5000}&#10;&#10;spring.application.name=secure-webapp-backend&#10;&#10;spring.datasource.url=${DB_URL:jdbc:postgresql://localhost:5432/securewebapp}&#10;spring.datasource.username=${DB_USERNAME:postgres}&#10;spring.datasource.password=${DB_PASSWORD:postgres}&#10;spring.jpa.hibernate.ddl-auto=${JPA_DDL_AUTO:update}&#10;spring.jpa.open-in-view=false&#10;&#10;APP_SEED_ENABLED=${APP_SEED_ENABLED:false}&#10;APP_SEED_USERNAME=${APP_SEED_USERNAME:}&#10;APP_SEED_PASSWORD=${APP_SEED_PASSWORD:}&#10;&#10;logging.level.org.springframework.security=INFO" />
             </PendingDiffInfo>
           </value>
         </entry>
