@@ -27,3 +27,9 @@ replay_pid*
 
 # Maven build output
 target/
+
+# Local TLS artifacts
+*.p12
+*.jks
+*.cer
+backend/certs/
